@@ -44,6 +44,19 @@ setup() {
 	done < $CONFIG_FILE
 	(cd ${BUILD_DIR}/${TARGET_BOARD} && make ${DEF_CONFIG_FILE_NAME})
 
+	echo "Moving packages..."
+	CONFIG_IN_FILE=${BUILD_DIR}/${TARGET_BOARD}/Config.in
+	CONFIG_IN_CUSTOM=${BUILD_DIR}/${TARGET_BOARD}/package/Config.in.custom
+	cp -r package/* ${BUILD_DIR}/${TARGET_BOARD}/package/
+	rm -rf ${CONFIG_IN_CUSTOM}
+	touch ${CONFIG_IN_CUSTOM}
+	echo "menu \"Custom Packages\"" >> ${CONFIG_IN_CUSTOM}
+	find package -name 'Config.in' -exec echo -e "\tsource \"{}\"" >> ${CONFIG_IN_CUSTOM} \;
+	echo "endmenu" >> ${CONFIG_IN_CUSTOM}
+	if ! grep -q "Config.in.custom" ${CONFIG_IN_FILE}; then
+		echo -e 'source "package/Config.in.custom"' >> $CONFIG_IN_FILE
+	fi
+
 	echo "Build successfully setup"
 }
 
