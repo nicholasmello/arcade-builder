@@ -1,3 +1,0 @@
-menu "Custom Packages"
-	source "package/buildinfo.Config.in"
-endmenu
