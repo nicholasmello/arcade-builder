@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_LIST=("rpi4-arcade" "rpi4-debugger")
+TARGET_LIST=("rpi4-arcade-min" "rpi4-arcade" "rpi4-arcade-dev")
 TARGET_BOARD=$2
 mkdir -p "${PWD}/../builds/"
 BUILD_DIR="$(builtin cd "${PWD}/../builds/"; pwd)"
