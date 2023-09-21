@@ -8,7 +8,7 @@ machine image using buildroot to load on raspberry pis.
 Valid board names include rpi4-arcade-min, rpi4-arcade, and rpi4-arcade-dev.
 After running setup, a builds directory will be created above the project
 directory to store buildroot and builds. To compile the project run make in the
-project directory located at ../builds/BOARDNAME
+project directory located at `../builds/BOARDNAME`
 
 To setup and run make together run
 `./builder build BOARDNAME`
