@@ -1,0 +1,23 @@
+name: build-all
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build rpi4 Minimal
+      run: ./builder build rpi4-arcade-min
+
+    - name: Build rpi4 Normal
+      run: ./builder build rpi4-arcade
+
+    - name: Build rpi4 Developer
+      run: ./builder build rpi4-arcade-dev
