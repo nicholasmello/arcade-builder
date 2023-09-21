@@ -1,0 +1,1 @@
+arcade -1 arcade -1 =machine /home/arcade /bin/bash
