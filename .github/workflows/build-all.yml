@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-minimal:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,8 +16,20 @@ jobs:
     - name: Build rpi4 Minimal
       run: ./builder build rpi4-arcade-min
 
+  build-normal:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
     - name: Build rpi4 Normal
       run: ./builder build rpi4-arcade
+
+  build-developer:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
 
     - name: Build rpi4 Developer
       run: ./builder build rpi4-arcade-dev
