@@ -3,6 +3,7 @@
 TARGET_LIST=("rpi4-arcade-min" "rpi4-arcade" "rpi4-arcade-dev")
 TARGET_BOARD=$2
 mkdir -p "${PWD}/../builds/"
+SETUP_DIR="${PWD}"
 BUILD_DIR="$(builtin cd "${PWD}/../builds/"; pwd)"
 BUILDROOT_VERSION="buildroot-2023.02.3"
 
@@ -36,6 +37,19 @@ setup() {
 		cp -r ${BUILD_DIR}/${BUILDROOT_VERSION} ${BUILD_DIR}/${TARGET_BOARD}
 	fi
 
+	echo "Moving packages..."
+	CONFIG_IN_FILE=${BUILD_DIR}/${TARGET_BOARD}/Config.in
+	CONFIG_IN_CUSTOM=${BUILD_DIR}/${TARGET_BOARD}/package/Config.in.custom
+	cp -r ${SETUP_DIR}/package/* ${BUILD_DIR}/${TARGET_BOARD}/package/
+	rm -rf ${CONFIG_IN_CUSTOM}
+	touch ${CONFIG_IN_CUSTOM}
+	echo "menu \"Custom Packages\"" >> ${CONFIG_IN_CUSTOM}
+	find package -name 'Config.in' -exec echo -e "\tsource \"{}\"" >> ${CONFIG_IN_CUSTOM} \;
+	echo "endmenu" >> ${CONFIG_IN_CUSTOM}
+	if ! grep -q "Config.in.custom" ${CONFIG_IN_FILE}; then
+		echo -e 'source "package/Config.in.custom"' >> $CONFIG_IN_FILE
+	fi
+
 	echo "Setting up configuration file..."
 	DEF_CONFIG_FILE_NAME="${TARGET_BOARD//-/_}_defconfig"
 	DEF_CONFIG="${BUILD_DIR}/${TARGET_BOARD}/configs/${DEF_CONFIG_FILE_NAME}"
@@ -45,19 +59,6 @@ setup() {
 		cat partials/$partconfig >> ${DEF_CONFIG}
 	done < $CONFIG_FILE
 	cd ${BUILD_DIR}/${TARGET_BOARD} && make ${DEF_CONFIG_FILE_NAME}
-
-	echo "Moving packages..."
-	CONFIG_IN_FILE=${BUILD_DIR}/${TARGET_BOARD}/Config.in
-	CONFIG_IN_CUSTOM=${BUILD_DIR}/${TARGET_BOARD}/package/Config.in.custom
-	rsync -a package/ ${BUILD_DIR}/${TARGET_BOARD}/package/
-	rm -rf ${CONFIG_IN_CUSTOM}
-	touch ${CONFIG_IN_CUSTOM}
-	echo "menu \"Custom Packages\"" >> ${CONFIG_IN_CUSTOM}
-	find package -name 'Config.in' -exec echo -e "\tsource \"{}\"" >> ${CONFIG_IN_CUSTOM} \;
-	echo "endmenu" >> ${CONFIG_IN_CUSTOM}
-	if ! grep -q "Config.in.custom" ${CONFIG_IN_FILE}; then
-		echo -e 'source "package/Config.in.custom"' >> $CONFIG_IN_FILE
-	fi
 
 	echo "Build successfully setup"
 }
