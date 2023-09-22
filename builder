@@ -50,6 +50,9 @@ setup() {
 		echo -e 'source "package/Config.in.custom"' >> $CONFIG_IN_FILE
 	fi
 
+	echo "Copying skeleton..."
+	cp -r ${SETUP_DIR}/skeleton/* ${BUILD_DIR}/${TARGET_BOARD}/system/skeleton/
+
 	echo "Setting up configuration file..."
 	DEF_CONFIG_FILE_NAME="${TARGET_BOARD//-/_}_defconfig"
 	DEF_CONFIG="${BUILD_DIR}/${TARGET_BOARD}/configs/${DEF_CONFIG_FILE_NAME}"

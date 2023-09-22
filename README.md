@@ -23,6 +23,9 @@ build
 ### configs
 Config files in this directory correspond to each board and list the partial
 config files that will be combined to create that build.
+### skeleton
+Contains a local skeleton that will be added on top of the buildroot default
+one. Overwrites all files that are duplicated in both places.
 
 ## Load procedure
 After running make on a build, there will be an image file to load an sd card
