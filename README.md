@@ -13,6 +13,10 @@ project directory located at `../builds/BOARDNAME`
 To setup and run make together run
 `./builder build BOARDNAME`
 
+The default behavior is to build with symlinks, this can be disabled by adding
+the stand-alone option
+`./builder setup BOARDNAME stand-alone`
+
 ## Project Structure
 ### package
 This folder contains additional packages not found in buildroot that are to be

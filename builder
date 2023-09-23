@@ -6,6 +6,10 @@ mkdir -p "${PWD}/../builds/"
 SETUP_DIR="${PWD}"
 BUILD_DIR="$(builtin cd "${PWD}/../builds/"; pwd)"
 BUILDROOT_VERSION="buildroot-2023.02.3"
+STANDALONE=FALSE
+if [[ "$3" == "stand-alone" ]]; then
+	STANDALONE=TRUE
+fi
 
 usage() {
 	echo "Usage: $0 <command> <target>"
@@ -43,7 +47,14 @@ setup() {
 	echo "Moving packages..."
 	CONFIG_IN_FILE=${BUILD_TARGET_DIR}/Config.in
 	CONFIG_IN_CUSTOM=${BUILD_TARGET_DIR}/package/Config.in.custom
-	cp -r ${SETUP_DIR}/package/* ${BUILD_TARGET_DIR}/package/
+	if [[ "${STANDALONE}" == "TRUE" ]]; then
+		cp -r ${SETUP_DIR}/package/* ${BUILD_TARGET_DIR}/package/
+	else
+		for package in ${SETUP_DIR}/package/*; do
+			rm -rf ${BUILD_TARGET_DIR}/package/${package##*/}
+			ln -s $package ${BUILD_TARGET_DIR}/package/${package##*/}
+		done
+	fi
 	rm -rf ${CONFIG_IN_CUSTOM}
 	touch ${CONFIG_IN_CUSTOM}
 	echo "menu \"Custom Packages\"" >> ${CONFIG_IN_CUSTOM}
@@ -54,7 +65,16 @@ setup() {
 	fi
 
 	echo "Copying skeleton..."
-	cp -r ${SETUP_DIR}/skeleton/* ${BUILD_TARGET_DIR}/system/skeleton/
+	if [[ "${STANDALONE}" == "TRUE" ]]; then
+		cp -r ${SETUP_DIR}/skeleton/* ${BUILD_TARGET_DIR}/system/skeleton/
+	else
+		for file in $(find skeleton); do
+			if [ -f "$file" ]; then
+				rm -rf ${BUILD_TARGET_DIR}/system/$file
+				ln -s ${SETUP_DIR}/$file ${BUILD_TARGET_DIR}/system/$file
+			fi
+		done
+	fi
 
 	echo "Setting up configuration file..."
 	DEF_CONFIG_FILE_NAME="${TARGET_BOARD//-/_}_defconfig"
