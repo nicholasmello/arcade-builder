@@ -18,6 +18,18 @@ usage() {
 	echo "Targets: ${TARGET_LIST[*]}"
 }
 
+move_dir() {
+	MOVEDIR=$1
+	if [[ "${STANDALONE}" == "TRUE" ]]; then
+		cp -r ${SETUP_DIR}/${MOVEDIR}/* ${BUILD_TARGET_DIR}/${MOVEDIR}/
+	else
+		for package in ${SETUP_DIR}/${MOVEDIR}/*; do
+			rm -rf ${BUILD_TARGET_DIR}/${MOVEDIR}/${package##*/}
+			ln -s $package ${BUILD_TARGET_DIR}/${MOVEDIR}/${package##*/}
+		done
+	fi
+}
+
 setup() {
 	BUILD_TARGET_DIR=${BUILD_DIR}/${TARGET_BOARD}
 
@@ -47,14 +59,7 @@ setup() {
 	echo "Moving packages..."
 	CONFIG_IN_FILE=${BUILD_TARGET_DIR}/Config.in
 	CONFIG_IN_CUSTOM=${BUILD_TARGET_DIR}/package/Config.in.custom
-	if [[ "${STANDALONE}" == "TRUE" ]]; then
-		cp -r ${SETUP_DIR}/package/* ${BUILD_TARGET_DIR}/package/
-	else
-		for package in ${SETUP_DIR}/package/*; do
-			rm -rf ${BUILD_TARGET_DIR}/package/${package##*/}
-			ln -s $package ${BUILD_TARGET_DIR}/package/${package##*/}
-		done
-	fi
+	move_dir package
 	rm -rf ${CONFIG_IN_CUSTOM}
 	touch ${CONFIG_IN_CUSTOM}
 	echo "menu \"Custom Packages\"" >> ${CONFIG_IN_CUSTOM}
@@ -63,6 +68,9 @@ setup() {
 	if ! grep -q "Config.in.custom" ${CONFIG_IN_FILE}; then
 		echo -e 'source "package/Config.in.custom"' >> $CONFIG_IN_FILE
 	fi
+
+	echo "Moving boards..."
+	move_dir board
 
 	echo "Copying skeleton..."
 	if [[ "${STANDALONE}" == "TRUE" ]]; then
