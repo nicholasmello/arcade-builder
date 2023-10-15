@@ -1,0 +1,36 @@
+#!/bin/bash
+# description: Temp solution to get home directory for now
+
+HOME_DIR="/home/arcade"
+
+start() {
+	mkdir -p ${HOME_DIR}
+}
+
+stop() {
+	echo "automatic stop not supported, to kill process run rm -rf /home/arcade"
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	status)
+		if [ -d "${HOME_DIR}" ]; then
+			echo "Home directory is setup"
+		else
+			echo "Home directory has not been created"
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0
