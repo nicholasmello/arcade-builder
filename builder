@@ -72,18 +72,6 @@ setup() {
 	echo "Moving boards..."
 	move_dir board
 
-	echo "Copying skeleton..."
-	if [[ "${STANDALONE}" == "TRUE" ]]; then
-		cp -r ${SETUP_DIR}/skeleton/* ${BUILD_TARGET_DIR}/system/skeleton/
-	else
-		for file in $(find skeleton); do
-			if [ -f "$file" ]; then
-				rm -rf ${BUILD_TARGET_DIR}/system/$file
-				ln -s ${SETUP_DIR}/$file ${BUILD_TARGET_DIR}/system/$file
-			fi
-		done
-	fi
-
 	echo "Setting up configuration file..."
 	DEF_CONFIG_FILE_NAME="${TARGET_BOARD//-/_}_defconfig"
 	DEF_CONFIG="${BUILD_TARGET_DIR}/configs/${DEF_CONFIG_FILE_NAME}"
