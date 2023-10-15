@@ -4,8 +4,9 @@ set -u
 set -e
 
 BOARD_DIR="$(dirname $0)"
-BOARD_NAME="$(basename ${BOARD_DIR})"
-FSTAB_LOCATION="${BOARD_DIR}/fstab"
+
+# Execute common first
+${BOARD_DIR}/../common-arcade/post-build.sh
 
 # Add a console on tty1
 if [ -e ${TARGET_DIR}/etc/inittab ]; then
@@ -17,4 +18,4 @@ fi
 # exnsure overlays exists for genimage
 mkdir -p "${BINARIES_DIR}/rpi-firmware/overlays"
 
-cp ${FSTAB_LOCATION} ${TARGET_DIR}/etc/fstab
+cp -r ${BOARD_DIR}/custom-skeleton/ ${TARGET_DIR}
