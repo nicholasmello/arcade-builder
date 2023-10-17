@@ -1,0 +1,6 @@
+config BR2_PACKAGE_QT_TEST
+	bool "qt-test"
+	depends on BR2_PACKAGE_QT5
+	select BR2_PACKAGE_QT5BASE_WIDGETS
+	help
+		This is an example hello world app to make sure qt is working
