@@ -36,3 +36,6 @@ BR2_TARGET_ROOTFS_EXT2_SIZE="240M"
 # BR2_TARGET_ROOTFS_TAR is not set
 BR2_ROOTFS_POST_BUILD_SCRIPT="board/raspberrypi4-arcade/post-build.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="board/raspberrypi4-arcade/post-image.sh"
+
+BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
+BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="board/raspberrypi4-arcade/kernel.config"
