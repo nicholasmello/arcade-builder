@@ -15,7 +15,7 @@ if [ -e ${TARGET_DIR}/etc/inittab ]; then
 tty1::respawn:/sbin/getty -L  tty1 0 vt100 # HDMI console' ${TARGET_DIR}/etc/inittab
 fi
 
-# exnsure overlays exists for genimage
+# ensure overlays exists for genimage
 mkdir -p "${BINARIES_DIR}/rpi-firmware/overlays"
 
 cp -r ${BOARD_DIR}/custom-skeleton/ ${TARGET_DIR}
