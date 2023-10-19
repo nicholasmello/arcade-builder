@@ -1,0 +1,6 @@
+config BR2_PACKAGE_BUILDINFO_READER
+	bool "buildinfo-reder"
+	help
+		Script to read build info placed by the buildinfo-nodes host package
+
+		https://www.nmello.dev

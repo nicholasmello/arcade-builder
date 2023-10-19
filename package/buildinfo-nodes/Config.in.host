@@ -1,5 +1,5 @@
-config BR2_PACKAGE_BUILDINFO
-	bool "buildinfo"
+config BR2_PACKAGE_HOST_BUILDINFO_NODES
+	bool "buildinfo-nodes"
 	help
 		Build information containing build date and time
 
