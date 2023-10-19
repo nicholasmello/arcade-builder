@@ -19,7 +19,7 @@ usage() {
 }
 
 move_dir() {
-	MOVEDIR=$1
+	local MOVEDIR=$1
 	if [[ "${STANDALONE}" == "TRUE" ]]; then
 		cp -r ${SETUP_DIR}/${MOVEDIR}/* ${BUILD_TARGET_DIR}/${MOVEDIR}/
 	else
@@ -31,22 +31,22 @@ move_dir() {
 }
 
 setup() {
-	BUILD_TARGET_DIR=${BUILD_DIR}/${TARGET_BOARD}
+	local BUILD_TARGET_DIR=${BUILD_DIR}/${TARGET_BOARD}
 
 	echo "Verifying validity of target..."
 	if ! [[ " ${TARGET_LIST[@]} " =~ " ${TARGET_BOARD} "  ]]; then
 		usage
 		exit 1
 	fi
-	CONFIG_FILE="configs/${TARGET_BOARD}.buildercfg"
+	local CONFIG_FILE="configs/${TARGET_BOARD}.buildercfg"
 	if [ ! -f "${CONFIG_FILE}" ]; then
 		echo "Unable to find build configuration file: ${CONFIG_FILE}"
 	fi
 
 	echo "Setting up buildroot environment..."
-	BUILDROOT_DIR=${BUILD_DIR}/${BUILDROOT_VERSION}
+	local BUILDROOT_DIR=${BUILD_DIR}/${BUILDROOT_VERSION}
 	if [ ! -d "${BUILDROOT_DIR}" ]; then
-		FILE_NAME=${BUILDROOT_DIR}.tar.gz
+		local FILE_NAME=${BUILDROOT_DIR}.tar.gz
 		wget -O ${FILE_NAME} https://buildroot.org/downloads/${BUILDROOT_VERSION}.tar.gz
 		cd ${BUILD_DIR}
 		tar xvzf ${FILE_NAME}
@@ -57,8 +57,8 @@ setup() {
 	fi
 
 	echo "Moving packages..."
-	CONFIG_IN_FILE=${BUILD_TARGET_DIR}/Config.in
-	CONFIG_IN_CUSTOM=${BUILD_TARGET_DIR}/package/Config.in.custom
+	local CONFIG_IN_FILE=${BUILD_TARGET_DIR}/Config.in
+	local CONFIG_IN_CUSTOM=${BUILD_TARGET_DIR}/package/Config.in.custom
 	move_dir package
 	rm -rf ${CONFIG_IN_CUSTOM}
 	touch ${CONFIG_IN_CUSTOM}
@@ -73,8 +73,8 @@ setup() {
 	move_dir board
 
 	echo "Setting up configuration file..."
-	DEF_CONFIG_FILE_NAME="${TARGET_BOARD//-/_}_defconfig"
-	DEF_CONFIG="${BUILD_TARGET_DIR}/configs/${DEF_CONFIG_FILE_NAME}"
+	local DEF_CONFIG_FILE_NAME="${TARGET_BOARD//-/_}_defconfig"
+	local DEF_CONFIG="${BUILD_TARGET_DIR}/configs/${DEF_CONFIG_FILE_NAME}"
 	rm -rf ${DEF_CONFIG}
 	touch ${DEF_CONFIG}
 	while read partconfig; do
