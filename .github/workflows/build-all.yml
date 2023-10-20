@@ -20,7 +20,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: sd-image-min
-        path: images/sdcard.img
+        path: builds/rpi4-arcade-min/output/images/sdcard.img
 
   build-normal:
     runs-on: ubuntu-latest
@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: sd-image
-        path: images/sdcard.img
+        path: builds/rpi4-arcade/output/images/sdcard.img
 
   build-developer:
     runs-on: ubuntu-latest
@@ -50,4 +50,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: sd-image-dev
-        path: images/sdcard.img
+        path: builds/rpi4-arcade-dev/output/images/sdcard.img

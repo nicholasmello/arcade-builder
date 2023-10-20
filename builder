@@ -95,17 +95,6 @@ build() {
 	echo "Build complete."
 }
 
-copy() {
-	local output_dir="${BUILD_DIR}/${TARGET_BOARD}/output/images/"
-	if [ -d "${output_dir}" ]; then
-		echo "Copying files..."
-		cp -r ${output_dir} ${SETUP_DIR}
-	else
-		echo "${output_dir} does not exist, please build before copy"
-		exit 1
-	fi
-}
-
 verify_board
 
 case $1 in
@@ -115,12 +104,10 @@ case $1 in
 	build)
 		build
 		;;
-	copy)
-		copy
-		;;
 	actions_run)
+		BUILD_DIR="${PWD}/builds"
+		mkdir -p "${BUILD_DIR}"
 		build
-		copy
 		;;
 	*)
 		usage
