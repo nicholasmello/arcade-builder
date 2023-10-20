@@ -92,12 +92,29 @@ build() {
 	echo "Done"
 }
 
+copy() {
+	local output_dir="${BUILD_DIR}/${TARGET_BOARD}/output/images/"
+	if [ -d "${output_dir}" ]; then
+		cp -r ${output_dir} ${SETUP_DIR}
+	else
+		echo "${output_dir} does not exist, please build before copy"
+		exit 1
+	fi
+}
+
 case $1 in
 	setup)
 		setup
 		;;
 	build)
 		build
+		;;
+	copy)
+		copy
+		;;
+	actions_run)
+		build
+		copy
 		;;
 	*)
 		usage
