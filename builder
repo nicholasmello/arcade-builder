@@ -105,6 +105,7 @@ case $1 in
 		build
 		;;
 	actions_run)
+		echo "WARNING: Contaminating git environment!t"
 		BUILD_DIR="${PWD}/builds"
 		mkdir -p "${BUILD_DIR}"
 		build
