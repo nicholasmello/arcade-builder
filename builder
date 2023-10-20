@@ -14,7 +14,7 @@ fi
 usage() {
 	echo "Usage: $0 <command> <target>"
 	echo ""
-	echo "Commands: setup build"
+	echo "Commands: setup build copy actions_run"
 	echo "Targets: ${TARGET_LIST[*]}"
 }
 
@@ -30,14 +30,17 @@ move_dir() {
 	fi
 }
 
-setup() {
-	local BUILD_TARGET_DIR=${BUILD_DIR}/${TARGET_BOARD}
-
+verify_board() {
 	echo "Verifying validity of target..."
 	if ! [[ " ${TARGET_LIST[@]} " =~ " ${TARGET_BOARD} "  ]]; then
 		usage
 		exit 1
 	fi
+}
+
+setup() {
+	local BUILD_TARGET_DIR=${BUILD_DIR}/${TARGET_BOARD}
+
 	local CONFIG_FILE="configs/${TARGET_BOARD}.buildercfg"
 	if [ ! -f "${CONFIG_FILE}" ]; then
 		echo "Unable to find build configuration file: ${CONFIG_FILE}"
@@ -89,18 +92,21 @@ build() {
 	setup
 	echo "Starting build..."
 	(cd ${BUILD_DIR}/${TARGET_BOARD} && make all)
-	echo "Done"
+	echo "Build complete."
 }
 
 copy() {
 	local output_dir="${BUILD_DIR}/${TARGET_BOARD}/output/images/"
 	if [ -d "${output_dir}" ]; then
+		echo "Copying files..."
 		cp -r ${output_dir} ${SETUP_DIR}
 	else
 		echo "${output_dir} does not exist, please build before copy"
 		exit 1
 	fi
 }
+
+verify_board
 
 case $1 in
 	setup)
