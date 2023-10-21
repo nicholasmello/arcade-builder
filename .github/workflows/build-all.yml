@@ -15,10 +15,18 @@ jobs:
 
     - run: ./builder actions_run rpi4-arcade-min
 
+    - run: ls builds/
+
+    - run: ls builds/rpi4-arcade-min/
+
+    - run: ls builds/rpi4-arcade-min/output/
+
+    - run: ls builds/rpi4-arcade-min/output/images/
+
     - uses: actions/upload-artifact@v3
       with:
         name: sd-image-min
-        path: ./builds/rpi4-arcade-min/output/images/sdcard.img
+        path: builds/rpi4-arcade-min/output/images/*
         if-no-files-found: error
 
   build-normal:
@@ -32,7 +40,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: sd-image
-        path: ./builds/rpi4-arcade/output/images/sdcard.img
+        path: builds/rpi4-arcade/output/images/*
         if-no-files-found: error
 
   build-developer:
@@ -46,5 +54,5 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: sd-image-dev
-        path: ./builds/rpi4-arcade-dev/output/images/sdcard.img
+        path: builds/rpi4-arcade-dev/output/images/*
         if-no-files-found: error
