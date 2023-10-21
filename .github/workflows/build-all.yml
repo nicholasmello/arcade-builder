@@ -13,11 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Build rpi4 Minimal
-      run: ./builder actions_run rpi4-arcade-min
+    - run: ./builder actions_run rpi4-arcade-min
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v3
       with:
         name: sd-image-min
         path: ./builds/rpi4-arcade-min/output/images/sdcard.img
@@ -29,11 +27,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Build rpi4 Normal
-      run: ./builder actions_run rpi4-arcade
+    - run: ./builder actions_run rpi4-arcade
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v3
       with:
         name: sd-image
         path: ./builds/rpi4-arcade/output/images/sdcard.img
@@ -45,11 +41,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Build rpi4 Developer
-      run: ./builder actions_run rpi4-arcade-dev
+    - run: ./builder actions_run rpi4-arcade-dev
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v3
       with:
         name: sd-image-dev
         path: ./builds/rpi4-arcade-dev/output/images/sdcard.img
