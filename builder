@@ -14,7 +14,7 @@ fi
 usage() {
 	echo "Usage: $0 <command> <target>"
 	echo ""
-	echo "Commands: setup build"
+	echo "Commands: setup build copy actions_run"
 	echo "Targets: ${TARGET_LIST[*]}"
 }
 
@@ -30,14 +30,17 @@ move_dir() {
 	fi
 }
 
-setup() {
-	local BUILD_TARGET_DIR=${BUILD_DIR}/${TARGET_BOARD}
-
+verify_board() {
 	echo "Verifying validity of target..."
 	if ! [[ " ${TARGET_LIST[@]} " =~ " ${TARGET_BOARD} "  ]]; then
 		usage
 		exit 1
 	fi
+}
+
+setup() {
+	local BUILD_TARGET_DIR=${BUILD_DIR}/${TARGET_BOARD}
+
 	local CONFIG_FILE="configs/${TARGET_BOARD}.buildercfg"
 	if [ ! -f "${CONFIG_FILE}" ]; then
 		echo "Unable to find build configuration file: ${CONFIG_FILE}"
@@ -89,14 +92,22 @@ build() {
 	setup
 	echo "Starting build..."
 	(cd ${BUILD_DIR}/${TARGET_BOARD} && make all)
-	echo "Done"
+	echo "Build complete."
 }
+
+verify_board
 
 case $1 in
 	setup)
 		setup
 		;;
 	build)
+		build
+		;;
+	actions_run)
+		echo "WARNING: Contaminating git environment!t"
+		BUILD_DIR="${PWD}/builds"
+		mkdir -p "${BUILD_DIR}"
 		build
 		;;
 	*)
