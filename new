@@ -1,0 +1,25 @@
+#!/bin/bash
+
+NEW_TYPE=$1
+shift
+ARGS=$@
+
+usage() {
+	echo "$0 <type>
+	types:
+	  package
+	  board"
+	exit 1
+}
+
+case $NEW_TYPE in
+package)
+	#
+	;;
+board)
+	#
+	;;
+*)
+	usage
+	;;
+esac
