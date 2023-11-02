@@ -3,6 +3,7 @@
 NEW_TYPE=$1
 shift
 ARGS=$@
+BUILDER_DIR="$PWD"
 
 usage() {
 	echo "$0 <type>
@@ -12,9 +13,32 @@ usage() {
 	exit 1
 }
 
+package() {
+	PACKAGE_NAME="${1,,}"
+	PACKAGE_NAME_UPPER="${PACKAGE_NAME^^}"
+	EXAMPLE_PACKAGE="${BUILDER_DIR}/support/package/"
+
+	PACKAGE_DIR="${BUILDER_DIR}/package/${PACKAGE_NAME}"
+	if [ -d "${PACKAGE_DIR}" ]; then
+		echo "Package already exists: ${PACKAGE_NAME}"
+		usage
+	fi
+
+	mkdir -p "${PACKAGE_DIR}"
+	cp "${EXAMPLE_PACKAGE}/Config.in" "${PACKAGE_DIR}/Config.in"
+	cp "${EXAMPLE_PACKAGE}/README.md" "${PACKAGE_DIR}/README.md"
+	cp "${EXAMPLE_PACKAGE}/example.mk" "${PACKAGE_DIR}/${PACKAGE_NAME}.mk"
+
+	sed -i "s/BR2_EXAMPLE_PACKAGE_NAME/BR2_PACKAGE_${PACKAGE_NAME_UPPER}/g" "${PACKAGE_DIR}/Config.in"
+	sed -i "s/example_package/${PACKAGE_NAME}/g" "${PACKAGE_DIR}/Config.in"
+	sed -i "s/PACKAGETITLE/${PACKAGE_NAME}/g" "${PACKAGE_DIR}/README.md"
+	sed -i "s/example_package/${PACKAGE_NAME}/g" "${PACKAGE_DIR}/${PACKAGE_NAME}.mk"
+	sed -i "s/EXAMPLEPACKAGE/${PACKAGE_NAME_UPPER//-/_}/g" "${PACKAGE_DIR}/${PACKAGE_NAME}.mk"
+}
+
 case $NEW_TYPE in
 package)
-	#
+	package $ARGS
 	;;
 board)
 	#
