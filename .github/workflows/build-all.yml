@@ -27,14 +27,6 @@ jobs:
 
     - run: BUILD_DIR="./builds" ./builder build rpi4-arcade-min
 
-    - run: ls builds/
-
-    - run: ls builds/rpi4-arcade-min/
-
-    - run: ls builds/rpi4-arcade-min/output/
-
-    - run: ls builds/rpi4-arcade-min/output/images/
-
     - uses: actions/upload-artifact@v3
       with:
         name: sd-image-min
