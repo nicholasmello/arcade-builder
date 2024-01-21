@@ -5,9 +5,9 @@ TARGET_BOARD="$2"
 mkdir -p "${PWD}/../builds/"
 SETUP_DIR="${PWD}"
 if [[ -z "${BUILD_DIR}" ]]; then
-	BUILD_DIR="$(builtin cd "${PWD}/../builds/"; pwd)"
+	BUILD_DIR="$(builtin cd "${PWD}/../builds/" || exit; pwd)"
 else
-	BUILD_DIR="$(builtin cd "${BUILD_DIR}"; pwd)"
+	BUILD_DIR="$(builtin cd "${BUILD_DIR}" || exit; pwd)"
 fi
 BUILDROOT_VERSION="buildroot-2023.02.3"
 STANDALONE=FALSE
@@ -47,7 +47,7 @@ setup() {
 	# Ensure build directory exists
 	mkdir -p "${BUILD_DIR}"
 
-	local CONFIG_FILE="configs/${TARGET_BOARD}.buildercfg"
+	local CONFIG_FILE="${SETUP_DIR}/configs/${TARGET_BOARD}.buildercfg"
 	if [ ! -f "${CONFIG_FILE}" ]; then
 		echo "Unable to find build configuration file: ${CONFIG_FILE}"
 	fi
@@ -92,7 +92,8 @@ setup() {
 	rm -rf "${DEF_CONFIG}"
 	touch "${DEF_CONFIG}"
 	while read -r partconfig; do
-		cat "partials/$partconfig" >> "${DEF_CONFIG}"
+		cat "${SETUP_DIR}/partials/$partconfig"
+		cat "${SETUP_DIR}/partials/$partconfig" >> "${DEF_CONFIG}"
 	done < "$CONFIG_FILE"
 	make -C "${BUILD_TARGET_DIR}" "${DEF_CONFIG_FILE_NAME}" || exit 1
 
