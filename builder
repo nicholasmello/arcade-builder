@@ -60,7 +60,7 @@ setup() {
 		pushd "${BUILD_DIR}" || exit 1
 		tar xvzf "${FILE_NAME}"
 		rm -rf "${FILE_NAME}"
-		popd
+		popd || exit 1
 	fi
 	if [ ! -d "${BUILD_TARGET_DIR}" ]; then
 		cp -r "${BUILDROOT_DIR}" "${BUILD_TARGET_DIR}"
