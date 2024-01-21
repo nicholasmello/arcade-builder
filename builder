@@ -4,7 +4,11 @@ TARGET_LIST=("rpi4-arcade-min" "rpi4-arcade" "rpi4-arcade-dev")
 TARGET_BOARD=$2
 mkdir -p "${PWD}/../builds/"
 SETUP_DIR="${PWD}"
-BUILD_DIR="$(builtin cd "${PWD}/../builds/"; pwd)"
+if [[ -z "${BUILD_DIR}" ]]; then
+	BUILD_DIR="$(builtin cd "${PWD}/../builds/"; pwd)"
+else
+	BUILD_DIR="$(builtin cd "${BUILD_DIR}"; pwd)"
+fi
 BUILDROOT_VERSION="buildroot-2023.02.3"
 STANDALONE=FALSE
 if [[ "$3" == "stand-alone" ]]; then
@@ -14,7 +18,7 @@ fi
 usage() {
 	echo "Usage: $0 <command> <target>"
 	echo ""
-	echo "Commands: setup build copy actions_run"
+	echo "Commands: setup build copy"
 	echo "Targets: ${TARGET_LIST[*]}"
 }
 
@@ -102,12 +106,6 @@ case $1 in
 		setup
 		;;
 	build)
-		build
-		;;
-	actions_run)
-		echo "WARNING: Contaminating git environment!t"
-		BUILD_DIR="${PWD}/builds"
-		mkdir -p "${BUILD_DIR}"
 		build
 		;;
 	*)
