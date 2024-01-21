@@ -4,6 +4,7 @@
 # Bash Checks
 ERROR+=$?
 shellcheck builder
+ERROR+=$?
 shellcheck checker
 for file in $(find . -name "*.sh"); do
 	shellcheck "$file"
