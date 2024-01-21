@@ -6,4 +6,5 @@ int main() {
 	printf(" ");
 	printf(__TIME__);
 	printf("\n");
+	return 0;
 }
