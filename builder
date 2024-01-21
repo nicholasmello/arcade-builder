@@ -92,7 +92,6 @@ setup() {
 	rm -rf "${DEF_CONFIG}"
 	touch "${DEF_CONFIG}"
 	while read -r partconfig; do
-		cat "${SETUP_DIR}/partials/$partconfig"
 		cat "${SETUP_DIR}/partials/$partconfig" >> "${DEF_CONFIG}"
 	done < "$CONFIG_FILE"
 	make -C "${BUILD_TARGET_DIR}" "${DEF_CONFIG_FILE_NAME}" || exit 1
@@ -103,7 +102,7 @@ setup() {
 build() {
 	setup
 	echo "Starting build..."
-	(cd "${BUILD_DIR}/${TARGET_BOARD}" && make all)
+	make -C "${BUILD_DIR}/${TARGET_BOARD}" all
 	echo "Build complete."
 }
 
