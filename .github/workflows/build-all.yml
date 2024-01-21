@@ -7,6 +7,16 @@ on:
     branches: [ "main" ]
 
 jobs:
+  run-checker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - run: sudo apt-get install -y splint
+
+    - run: ./checker
+
   build-minimal:
     runs-on: ubuntu-latest
 

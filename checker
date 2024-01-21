@@ -1,0 +1,22 @@
+#!/bin/bash
+# shellcheck disable=SC2044
+
+# Bash Checks
+ERROR+=$?
+shellcheck builder
+shellcheck checker
+for file in $(find . -name "*.sh"); do
+	shellcheck "$file"
+	ERROR+=$?
+done
+
+# C Checks
+for file in $(find . -name "*.c"); do
+	splint "$file"
+	ERROR+=$?
+done
+
+# Exit if there were any errors
+if ! [ "$ERROR" -eq 0 ]; then
+	exit 1
+fi
