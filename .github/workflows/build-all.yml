@@ -23,7 +23,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - run: ./builder actions_run rpi4-arcade-min
+    - run: mkdir ./builds
+
+    - run: BUILD_DIR="./builds" ./builder build rpi4-arcade-min
 
     - run: ls builds/
 
@@ -45,7 +47,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - run: ./builder actions_run rpi4-arcade
+    - run: mkdir ./builds
+
+    - run: BUILD_DIR="./builds" ./builder build rpi4-arcade
 
     - uses: actions/upload-artifact@v3
       with:
@@ -59,7 +63,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - run: ./builder actions_run rpi4-arcade-dev
+    - run: mkdir ./builds
+
+    - run: BUILD_DIR="./builds" ./builder build rpi4-arcade-dev
 
     - uses: actions/upload-artifact@v3
       with:
