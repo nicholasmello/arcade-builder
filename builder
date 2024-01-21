@@ -57,9 +57,10 @@ setup() {
 	if [ ! -d "${BUILDROOT_DIR}" ]; then
 		local FILE_NAME="${BUILDROOT_DIR}.tar.gz"
 		wget -O "${FILE_NAME}" "https://buildroot.org/downloads/${BUILDROOT_VERSION}.tar.gz"
-		cd "${BUILD_DIR}" || exit 1
+		pushd "${BUILD_DIR}" || exit 1
 		tar xvzf "${FILE_NAME}"
 		rm -rf "${FILE_NAME}"
+		popd
 	fi
 	if [ ! -d "${BUILD_TARGET_DIR}" ]; then
 		cp -r "${BUILDROOT_DIR}" "${BUILD_TARGET_DIR}"
@@ -102,7 +103,7 @@ setup() {
 build() {
 	setup
 	echo "Starting build..."
-	(cd "${BUILD_DIR}/${TARGET_BOARD}" && make all)
+	make -C "${BUILD_DIR}/${TARGET_BOARD}" all
 	echo "Build complete."
 }
 
