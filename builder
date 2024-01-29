@@ -2,11 +2,12 @@
 
 TARGET_LIST=("rpi4-arcade-min" "rpi4-arcade" "rpi4-arcade-dev")
 TARGET_BOARD="$2"
-mkdir -p "${PWD}/../builds/"
 SETUP_DIR="${PWD}"
 if [[ -z "${BUILD_DIR}" ]]; then
+	mkdir -p "${PWD}/../builds/"
 	BUILD_DIR="$(builtin cd "${PWD}/../builds/" || exit; pwd)"
 else
+	mkdir -p "${BUILD_DIR}"
 	BUILD_DIR="$(builtin cd "${BUILD_DIR}" || exit; pwd)"
 fi
 BUILDROOT_VERSION="buildroot-2023.02.3"
