@@ -2,10 +2,10 @@
 # shellcheck disable=SC2044
 
 # Bash Checks
-ERROR+=$?
 shellcheck builder
 ERROR+=$?
 shellcheck checker
+ERROR+=$?
 for file in $(find . -name "*.sh"); do
 	shellcheck "$file"
 	ERROR+=$?
