@@ -1,2 +1,2 @@
-BR2_TARGET_UBOOT=y
-BR2_TARGET_UBOOT_BOARD_DEFCONFIG="../../../../board/raspberrypi4-arcade/uboot"
+#BR2_TARGET_UBOOT=y
+#BR2_TARGET_UBOOT_BOARD_DEFCONFIG="../../../../board/raspberrypi4-arcade/uboot"
