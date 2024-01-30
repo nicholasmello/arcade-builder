@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Setup environment for gui
 #
@@ -7,15 +7,14 @@ GUI_DEVICES=("/dev/dri/card0" "/dev/dri/renderD128" "/dev/dri/card1")
 
 start() {
 	echo "Applying video settings"
-	# Kill xorg
-	kill $(ps | grep -i xorg | awk '{print $1}')
-	for device in "${GUI_DEVICES}" do
+	/etc/init.d/S40xorg stop
+	for device in "${GUI_DEVICES[@]}"; do
 		chmod 777 "$device"
 	done
 }
 stop() {
 	echo "Returning video settings to defaults"
-	for device in "${GUI_DEVICES}" do
+	for device in "${GUI_DEVICES[@]}"; do
 		chmod 266 "$device"
 	done
 }
