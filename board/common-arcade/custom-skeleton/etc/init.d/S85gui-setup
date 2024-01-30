@@ -3,10 +3,12 @@
 # Setup environment for gui
 #
 
-GUI_DEVICES=("/dev/dri/card0" "/dev/dri/renderD128")
+GUI_DEVICES=("/dev/dri/card0" "/dev/dri/renderD128" "/dev/dri/card1")
 
 start() {
 	echo "Applying video settings"
+	# Kill xorg
+	kill $(ps | grep -i xorg | awk '{print $1}')
 	for device in "${GUI_DEVICES}" do
 		chmod 777 "$device"
 	done

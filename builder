@@ -98,6 +98,8 @@ setup() {
 	done < "$CONFIG_FILE"
 	make -C "${BUILD_TARGET_DIR}" "${DEF_CONFIG_FILE_NAME}" || exit 1
 
+	make -C "${BUILD_TARGET_DIR}" source
+
 	echo "Build successfully setup"
 }
 

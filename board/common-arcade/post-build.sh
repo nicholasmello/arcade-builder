@@ -5,4 +5,4 @@ set -e
 
 BOARD_DIR="$(dirname "$0")"
 
-cp -r "${BOARD_DIR}"/custom-skeleton/ "${TARGET_DIR}"
+cp -r "${BOARD_DIR}"/custom-skeleton/* "${TARGET_DIR}"
