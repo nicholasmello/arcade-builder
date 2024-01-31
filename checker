@@ -6,6 +6,8 @@ shellcheck builder
 ERROR+=$?
 shellcheck checker
 ERROR+=$?
+shellcheck board/*/custom-skeleton/etc/init.d/*
+ERROR+=$?
 for file in $(find . -name "*.sh"); do
 	shellcheck "$file"
 	ERROR+=$?

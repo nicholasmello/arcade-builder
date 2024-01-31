@@ -18,4 +18,4 @@ fi
 # ensure overlays exists for genimage
 mkdir -p "${BINARIES_DIR}"/rpi-firmware/overlays
 
-cp -r "${BOARD_DIR}"/custom-skeleton/ "${TARGET_DIR}"
+cp -r "${BOARD_DIR}"/custom-skeleton/* "${TARGET_DIR}"
