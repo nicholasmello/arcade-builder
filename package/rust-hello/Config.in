@@ -1,0 +1,9 @@
+config BR2_PACKAGE_RUST_HELLO
+	bool "rust-hello"
+	depends on BR2_PACKAGE_HOST_RUSTC_TARGET_ARCH_SUPPORTS
+	select BR2_PACKAGE_HOST_RUSTC
+	help
+		A hello world utility written in rust to prove ability to
+		compile rust applications
+
+		https://www.nmello.dev
